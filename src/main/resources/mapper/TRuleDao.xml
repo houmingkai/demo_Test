@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.TRuleDao">
+
+    <resultMap type="com.example.demo.entity.TRule" id="TRuleMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="type" column="type" jdbcType="OTHER"/>
+        <result property="keywords" column="keyWords" jdbcType="VARCHAR"/>
+        <result property="seq" column="seq" jdbcType="VARCHAR"/>
+        <result property="jumperurl" column="jumperUrl" jdbcType="VARCHAR"/>
+        <result property="channelids" column="channelIds" jdbcType="VARCHAR"/>
+        <result property="customerid" column="customerId" jdbcType="VARCHAR"/>
+        <result property="createtime" column="createTime" jdbcType="TIMESTAMP"/>
+        <result property="updatetime" column="updateTime" jdbcType="TIMESTAMP"/>
+        <result property="remark" column="remark" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="TRuleMap">
+        select
+          id, type, keyWords, seq, jumperUrl, channelIds, customerId, createTime, updateTime, remark
+        from infomanager.t_rule
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="TRuleMap">
+        select
+          id, type, keyWords, seq, jumperUrl, channelIds, customerId, createTime, updateTime, remark
+        from infomanager.t_rule
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="TRuleMap">
+        select
+          id, type, keyWords, seq, jumperUrl, channelIds, customerId, createTime, updateTime, remark
+        from infomanager.t_rule
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="keywords != null and keywords != ''">
+                and keyWords = #{keywords}
+            </if>
+            <if test="seq != null and seq != ''">
+                and seq = #{seq}
+            </if>
+            <if test="jumperurl != null and jumperurl != ''">
+                and jumperUrl = #{jumperurl}
+            </if>
+            <if test="channelids != null and channelids != ''">
+                and channelIds = #{channelids}
+            </if>
+            <if test="customerid != null and customerid != ''">
+                and customerId = #{customerid}
+            </if>
+            <if test="createtime != null">
+                and createTime = #{createtime}
+            </if>
+            <if test="updatetime != null">
+                and updateTime = #{updatetime}
+            </if>
+            <if test="remark != null and remark != ''">
+                and remark = #{remark}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into infomanager.t_rule(type, keyWords, seq, jumperUrl, channelIds, customerId, createTime, updateTime, remark)
+        values (#{type}, #{keywords}, #{seq}, #{jumperurl}, #{channelids}, #{customerid}, #{createtime}, #{updatetime}, #{remark})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update infomanager.t_rule
+        <set>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="keywords != null and keywords != ''">
+                keyWords = #{keywords},
+            </if>
+            <if test="seq != null and seq != ''">
+                seq = #{seq},
+            </if>
+            <if test="jumperurl != null and jumperurl != ''">
+                jumperUrl = #{jumperurl},
+            </if>
+            <if test="channelids != null and channelids != ''">
+                channelIds = #{channelids},
+            </if>
+            <if test="customerid != null and customerid != ''">
+                customerId = #{customerid},
+            </if>
+            <if test="createtime != null">
+                createTime = #{createtime},
+            </if>
+            <if test="updatetime != null">
+                updateTime = #{updatetime},
+            </if>
+            <if test="remark != null and remark != ''">
+                remark = #{remark},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from infomanager.t_rule where id = #{id}
+    </delete>
+
+</mapper>

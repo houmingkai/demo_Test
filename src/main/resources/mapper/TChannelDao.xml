@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.TChannelDao">
+
+    <resultMap type="com.example.demo.entity.TChannel" id="TChannelMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="channelcode" column="channelCode" jdbcType="VARCHAR"/>
+        <result property="channelname" column="channelName" jdbcType="VARCHAR"/>
+        <result property="channeldesc" column="channelDesc" jdbcType="VARCHAR"/>
+        <result property="isshow" column="isShow" jdbcType="OTHER"/>
+        <result property="customerid" column="customerId" jdbcType="VARCHAR"/>
+        <result property="createtime" column="createTime" jdbcType="TIMESTAMP"/>
+        <result property="updatetime" column="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="TChannelMap">
+        select
+          *
+        from infomanager.t_channel
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="TChannelMap">
+        select
+          id, channelCode, channelName, channelDesc, isShow, customerId, createTime, updateTime
+        from infomanager.t_channel
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="TChannelMap">
+        select
+          id, channelCode, channelName, channelDesc, isShow, customerId, createTime, updateTime
+        from infomanager.t_channel
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="channelcode != null and channelcode != ''">
+                and channelCode = #{channelcode}
+            </if>
+            <if test="channelname != null and channelname != ''">
+                and channelName = #{channelname}
+            </if>
+            <if test="channeldesc != null and channeldesc != ''">
+                and channelDesc = #{channeldesc}
+            </if>
+            <if test="isshow != null">
+                and isShow = #{isshow}
+            </if>
+            <if test="customerid != null and customerid != ''">
+                and customerId = #{customerid}
+            </if>
+            <if test="createtime != null">
+                and createTime = #{createtime}
+            </if>
+            <if test="updatetime != null">
+                and updateTime = #{updatetime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into infomanager.t_channel(channelCode, channelName, channelDesc, isShow, customerId, createTime, updateTime)
+        values (#{channelcode}, #{channelname}, #{channeldesc}, #{isshow}, #{customerid}, #{createtime}, #{updatetime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update infomanager.t_channel
+        <set>
+            <if test="channelcode != null and channelcode != ''">
+                channelCode = #{channelcode},
+            </if>
+            <if test="channelname != null and channelname != ''">
+                channelName = #{channelname},
+            </if>
+            <if test="channeldesc != null and channeldesc != ''">
+                channelDesc = #{channeldesc},
+            </if>
+            <if test="isshow != null">
+                isShow = #{isshow},
+            </if>
+            <if test="customerid != null and customerid != ''">
+                customerId = #{customerid},
+            </if>
+            <if test="createtime != null">
+                createTime = #{createtime},
+            </if>
+            <if test="updatetime != null">
+                updateTime = #{updatetime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from infomanager.t_channel where id = #{id}
+    </delete>
+
+    <select id="findAll" resultMap="TChannelMap">
+        select * from t_channel;
+    </select>
+</mapper>
